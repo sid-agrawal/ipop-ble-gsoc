@@ -32,6 +32,7 @@ The functionality desired is achieved using different mqtt clients:
 2. db_client.py: This client subscribes for topic as specified in the command line arg
                  and stores the received data in mongodb. Here is the format of the data 
                  stored in mongo db:
+
         database name: test-database
         collection name: sensor-data
         document format:
