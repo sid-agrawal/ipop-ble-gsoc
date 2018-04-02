@@ -67,7 +67,6 @@ def get_data_from_bt_sensor():
     '''
     server_sock = bluetooth.BluetoothSocket(bluetooth.L2CAP)
     server_sock.bind(("", 0x1001))
-    bluetooth.set_l2cap_mtu(server_sock, 65535)
     server_sock.listen(1)
     while True:
         logging.info('waiting for incoming connection')
