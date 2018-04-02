@@ -82,3 +82,7 @@ The functionality desired is achieved using different mqtt clients:
           --log LOG      set log level to the specified value. Defaults to WARNING.
                          Try DEBUG for maximum detail
           --syslog       enable logging to syslog
+
+Prereq:
+1. Mongodb
+2. MQTT 
