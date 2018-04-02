@@ -47,8 +47,8 @@ def sensor_client_handler(argv):
     mqttc.loop_start()
 
     while True:
-        sensor_data = get_data_from_sensor(args.sensor_type)
-        logging.info('publishing:%s:%d', topic, sensor_data)
+        sensor_data = get_data_from_bt_sensor()
+        logging.info('publishing:%s:%s', topic, sensor_data)
         mqttc.publish(topic, sensor_data)
 
 def get_data_from_sensor(sensor_type):
@@ -70,7 +70,6 @@ def get_data_from_bt_sensor():
     bluetooth.set_l2cap_mtu(server_sock, 65535)
     server_sock.listen(1)
     while True:
-        __import__('pdb').set_trace()
         logging.info('waiting for incoming connection')
         client_sock, address = server_sock.accept()
         logging.info('Accepted connection from %s', str(address))
@@ -88,7 +87,7 @@ def get_data_from_bt_sensor():
                 break
 
             logging.info('received packet of size %d', len(data))
-            yield data
+            return data
 
         client_sock.close()
 
