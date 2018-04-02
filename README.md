@@ -38,6 +38,7 @@ The functionality desired is achieved using different mqtt clients:
                  {       
                         'topic': topic,
                         'data': dataFromSensor,
+                        'time': current time,
                  }       
 
         usage: db_client.py [-h] [--mqtt-host MQTT_HOST] [--mqtt-port MQTT_PORT]
