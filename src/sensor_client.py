@@ -8,6 +8,7 @@ import logging
 import sys
 import time
 
+import bluetooth
 import paho.mqtt.client as mqtt
 
 VERSION = "0.1"
@@ -64,8 +65,36 @@ def get_data_from_bt_sensor():
     '''
         Blocking call to get data from the BT sensor
     '''
-    pass
+    server_sock = bluetooth.BluetoothSocket(bluetooth.L2CAP)
+    server_sock.bind(("", 0x1001))
+    bluetooth.set_l2cap_mtu(server_sock, 65535)
+    server_sock.listen(1)
+    while True:
+        __import__('pdb').set_trace()
+        logging.info('waiting for incoming connection')
+        client_sock, address = server_sock.accept()
+        logging.info('Accepted connection from %s', str(address))
 
+
+        logging.info('waiting for data')
+        while True:
+            try:
+                data = client_sock.recv(65535)
+            except bluetooth.BluetoothError as exception:
+                logging.warn(exception)
+                break
+
+            if len(data) == 0:
+                break
+
+            logging.info('received packet of size %d', len(data))
+            yield data
+
+        client_sock.close()
+
+        logging.info('connection closed')
+
+    server_sock.close()
 
 if __name__ == "__main__":
     sensor_client_handler(sys.argv[1:])
