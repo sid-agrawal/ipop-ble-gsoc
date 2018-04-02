@@ -42,21 +42,19 @@ def device_handler(argv):
     bt_addr = args.baddr
     bt_port = args.bport
 
-    bt_socket = bluetooth.BluetoothSocket(bluetooth.L2CAP)
-    logging.info('connected.  Adjusting link parameters.')
-
-    logging.info('trying to connect to %s:%d', bt_addr, bt_port)
-    bluetooth.set_l2cap_mtu(bt_socket, 65535)
-    bt_socket.connect((bt_addr, bt_port))
-
     while True:
-        data = datetime.datetime().now()
+        bt_socket = bluetooth.BluetoothSocket(bluetooth.L2CAP)
+        logging.info('Trying to connect to %s:%d', bt_addr, bt_port)
+        bluetooth.set_l2cap_mtu(bt_socket, 65535)
+        bt_socket.connect((bt_addr, bt_port))
+        logging.info('Connected')
+
+        data = str(datetime.datetime.now())
         sent = bt_socket.send(data)
         logging.info('sent packet of size %d (tried %d). Now sleeping for 5 seconds...',
                      sent, len(data))
         time.sleep(5)
-
-    bt_socket.close()
+        bt_socket.close()
 
 if __name__ == "__main__":
     device_handler(sys.argv[1:])

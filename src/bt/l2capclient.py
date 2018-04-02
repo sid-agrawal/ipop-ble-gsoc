@@ -30,4 +30,3 @@ while True:
     print("Data received:", str(data))
 
 sock.close()
-
